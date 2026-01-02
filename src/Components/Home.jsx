@@ -2,6 +2,9 @@ import Slider from "./Slider";
 import FifaMap from "./FifaMap";
 import FAQs from "./FAQs";
 import Groups from "./Groups";
+import img8 from "../assets/img8.webp";
+import img12 from "../assets/img12.jpg";
+import img7 from "../assets/img7.jpg";
 
 const Home = () => {
     return (
@@ -13,7 +16,7 @@ const Home = () => {
             {/* Refactored Section 2: Format Comparison */}
             <div id="format" className="relative py-6 sm:py-8 md:py-20 lg:py-12 font-outfit scroll-mt-24 scroll-smooth"
                 style={{
-                    backgroundImage: 'url("/src/assets/img8.webp")',
+                    backgroundImage: `url(${img8})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -121,7 +124,7 @@ const Home = () => {
             </div>
 
             <div id="schedule" className="text-center px-4 sm:px-6 md:px-8 scroll-mt-24 scroll-smooth" style={{
-                backgroundImage: 'url("/src/assets/img12.jpg")',
+                backgroundImage: `url(${img12})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -152,7 +155,7 @@ const Home = () => {
             </div>
 
             <div id="faqs" className="text-center pt-4 px-4 sm:px-6 md:px-8 scroll-mt-24 scroll-smooth" style={{
-                backgroundImage: 'url("/src/assets/img7.jpg")',
+                backgroundImage: `url(${img7})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

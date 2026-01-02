@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import img13 from "../assets/img13.webp";
 
 const FanGuide = () => {
   return (
     <div>
       <div id="fan-guide" className="text-center flex flex-col justify-center pt-3 sm:pt-4 md:pt-6 h-48 sm:h-56 md:h-60 lg:h-64" style={{
-        backgroundImage: 'url("/src/assets/img13.webp")',
+        backgroundImage: `url(${img13})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
