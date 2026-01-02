@@ -1,0 +1,409 @@
+// src/components/KenBurnsSlider.jsx (given by ChatGPT)
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Import your images (adjust names to your actual files)
+import img1 from "../assets/img1.jpg";
+import img2 from "../assets/img2.jpg";
+import img3 from "../assets/img3.jpg";
+
+const slides = [
+  { id: 1, src: img1, alt: "Slide 1" },
+  { id: 2, src: img2, alt: "Slide 2" },
+  { id: 3, src: img3, alt: "Slide 3" },
+];
+
+export default function KenBurnsSlider({
+  className = "",
+  slideDuration = 6000, // ms each slide stays visible
+}) {
+  const [index, setIndex] = useState(0);
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    // set up interval-like behavior with timeout so we can control lifecycle cleanly
+    const start = () => {
+      timeoutRef.current = setTimeout(() => {
+        setIndex((prev) => (prev + 1) % slides.length);
+      }, slideDuration);
+    };
+
+    start();
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [index, slideDuration]);
+
+  // motion variants for fade and ken burns (slow zoom-in)
+  const imageVariants = {
+    enter: (custom) => ({
+      opacity: 0,
+      scale: 1,
+    }),
+    center: (custom) => ({
+      opacity: 1,
+      scale: 1.08, // Ken Burns target scale (slow zoom-in)
+      transition: {
+        duration: slideDuration / 1000, // animate zoom across the whole slide duration
+        ease: "linear",
+      },
+    }),
+    exit: (custom) => ({
+      opacity: 0,
+      scale: 1.08,
+      transition: { duration: 0.8, ease: "easeOut" },
+    }),
+  };
+
+  return (
+    <div
+      className={`relative w-full overflow-hidden ${className}`}
+      aria-roledescription="carousel"
+    >
+      {/* Slides */}
+      <div className="relative w-full h-[500px] md:h-[600px]">
+        <AnimatePresence initial={false} mode="wait">
+          {slides.map((slide, i) =>
+            i === index ? (
+              <motion.div
+                key={slide.id}
+                className="absolute inset-0"
+                custom={i}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                variants={imageVariants}
+              >
+                {/* Background image cover */}
+                <div
+                  className="absolute inset-0 bg-center bg-cover"
+                  style={{ backgroundImage: `url(${slide.src})` }}
+                  aria-hidden="true"
+                />
+
+                {/* If you prefer an <img> tag for SEO or LCP, uncomment below and comment the background div above */}
+                {/* <motion.img
+                  src={slide.src}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  variants={imageVariants}
+                /> */}
+
+                {/* Optional overlay content (title/button) on top of the image */}
+                <div className="absolute inset-0 flex items-end md:items-center justify-start p-6 md:p-12">
+                  <div className="max-w-xl text-white">
+                    <h2 className="text-2xl md:text-4xl font-bold drop-shadow-lg">
+                      {/* Example dynamic title — replace with your own */}
+                      {slide.alt}
+                    </h2>
+                    <p className="mt-2 hidden md:block drop-shadow">
+                      A subtle subtitle that sits on top of the slide.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ) : null
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Dots / indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`w-3 h-3 rounded-full transition-all ${
+              i === index ? "scale-110 bg-white" : "bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+{/* 
+<div id="hero" className="bg-cyan-600 h-[457px] flex justify-center text-center items-center">
+        <div id="slider">
+          <div id="content" className="">
+            <h1 className="text-4xl font-bold">Your Complete Beginner's Guide to World Cup 2026</h1>
+            <p className="text-xl">From the tournament format to the best teams and players, we've got you covered.</p>
+            <div id="btns" className="flex justify-evenly items-center mt-12">
+              <button className="bg-white text-black font-bold rounded-xl p-2">Explore Tournament Format</button>
+              <button className="bg-white text-black font-bold rounded-xl p-2 ml-[-150px]">View Host Cities</button>
+            </div>
+          </div>
+        </div>
+</div> */}
+
+<div id="section6" className="text-center pt-4" style={{
+        backgroundImage: 'url("src/assets/img7.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundBlendMode: 'overlay',
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+      }}>
+        <h2 className="text-3xl font-bold">FAQs</h2>
+        <div className="flex flex-col items-center gap-2 text-center justify-center">
+          <h3>How many teams are in World Cup 2026?</h3>
+          <p>The FIFA World Cup 2026 will have 48 teams, making it the biggest World Cup tournament in history. This expanded format allows more countries from around the world to participate and increases global representation in the competition.</p>
+          <h3>Where is the FIFA World Cup 2026 hosted?</h3>
+          <p>The FIFA World Cup 2026 is hosted by the United States, Canada, and Mexico. It is the first World Cup to be jointly hosted by three nations, with matches taking place in multiple cities across North America.</p>
+          <h3>How will the group system work?</h3>
+          <p>The 48 teams will be divided into 12 groups of 4 teams each.
+
+            The top two teams from each group qualify for the knockout stage
+
+            The 8 best third-placed teams also advance
+            This format introduces a Round of 32, followed by the traditional knockout rounds leading to the final.</p>
+          <h3>How do teams qualify?</h3>
+          <p>Teams qualify through continental qualification tournaments organized by FIFA's six confederations (UEFA, CONMEBOL, AFC, CAF, CONCACAF, and OFC). The host nations (USA, Canada, and Mexico) qualify automatically, while the remaining spots are earned through qualifiers and intercontinental playoffs.</p>
+          <h3>Why are there 48 teams?</h3>
+          <p>FIFA expanded the World Cup to 48 teams to increase global participation, give more nations the opportunity to compete, and grow football's popularity worldwide. The expansion also results in more matches, more fans, and greater international exposure.</p>
+          <h3>How many matches will be played?</h3>
+          <p>The FIFA World Cup 2026 will feature a total of 104 matches, significantly more than the 64 matches played in previous 32-team tournaments. This makes it the longest and most comprehensive World Cup ever held.</p>
+          <h3>When will the World Cup take place?</h3>
+          <p>The FIFA World Cup 2026 will be held from 11 June 2026 to 19 July 2026.</p>
+          <h3>How many stadiums will be used?</h3>
+          <p>The FIFA World Cup 2026 will be held in 64 stadiums across the United States, Canada, and Mexico.</p>
+        </div>
+      </div>
+
+
+
+
+import { useState } from "react";
+const [active, setActive] = useState("All");
+
+<div id="section3" className="text-center bg-cyanCustom/50">
+        <div className="p-6 pt-6">
+          <h2 className="text-4xl font-bold h-12">Teams and Groups</h2>
+          <div className="flex justify-center items-center h-28">
+            <ul className="flex justify-center items-center gap-4 cursor-pointer">
+              {["All", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map((group) => (
+                <li
+                  key={group}
+                  onClick={() => setActive(group)}
+                  className={`
+                    p-2 rounded-xl transition-all duration-200 border backdrop-blur-md
+                    ${active === group
+                      ? "bg-white/40 shadow-md border-gold text-neutral font-bold scale-110"
+                      : "bg-cyanDark/20 border-gold text-greenGray shadow-md hover:bg-white/30 hover:scale-105 hover:border-gold"
+                    }
+                  `}
+                >
+                  {group === "All" ? "All" : "Group " + group}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex justify-center gap-10 items-center flex-wrap">
+            {/* Group A */}
+            <div className={`${active === "A" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group A</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-mx"></span> Mexico</p>
+                <p><span className="fi fi-za"></span> South Africa</p>
+                <p><span className="fi fi-kr"></span> Korea Republic</p>
+                <p><span className="fi fi-eu"></span> European Play-Off D</p>
+              </div>
+            </div>
+            {/* Group B */}
+            <div className={`${active === "B" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group B</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-ca"></span> Canada</p>
+                <p><span className="fi fi-eu"></span> European Play-Off A</p>
+                <p><span className="fi fi-qa"></span> Qatar</p>
+                <p><span className="fi fi-ch"></span> Switzerland</p>
+              </div>
+            </div>
+            {/* Group C */}
+            <div className={`${active === "C" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group C</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-br"></span> Brazil</p>
+                <p><span className="fi fi-ma"></span> Morocco</p>
+                <p><span className="fi fi-ht"></span> Haiti</p>
+                <p><span className="fi fi-gb-sct"></span> Scotland</p>
+              </div>
+            </div>
+            {/* Group D */}
+            <div className={`${active === "D" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group D</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-us"></span> USA</p>
+                <p><span className="fi fi-py"></span> Paraguay</p>
+                <p><span className="fi fi-au"></span> Australia</p>
+                <p><span className="fi fi-eu"></span> European Play-Off C</p>
+              </div>
+            </div>
+            {/* Group E */}
+            <div className={`${active === "E" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group E</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-de"></span> Germany</p>
+                <p><span className="fi fi-cw"></span> Curaçao</p>
+                <p><span className="fi fi-ci"></span> Côte d'Ivoire</p>
+                <p><span className="fi fi-ec"></span> Ecuador</p>
+              </div>
+            </div>
+            {/* Group F */}
+            <div className={`${active === "F" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group F</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-nl"></span> Netherlands</p>
+                <p><span className="fi fi-jp"></span> Japan</p>
+                <p><span className="fi fi-eu"></span> European Play-Off B</p>
+                <p><span className="fi fi-tn"></span> Tunisia</p>
+              </div>
+            </div>
+            {/* Group G */}
+            <div className={`${active === "G" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group G</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-be"></span> Belgium</p>
+                <p><span className="fi fi-eg"></span> Egypt</p>
+                <p><span className="fi fi-ir"></span> IR Iran</p>
+                <p><span className="fi fi-nz"></span> New Zealand</p>
+              </div>
+            </div>
+            {/* Group H */}
+            <div className={`${active === "H" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group H</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-es"></span> Spain</p>
+                <p><span className="fi fi-cv"></span> Cabo Verde</p>
+                <p><span className="fi fi-sa"></span> Saudi Arabia</p>
+                <p><span className="fi fi-uy"></span> Uruguay</p>
+              </div>
+            </div>
+            {/* Group I */}
+            <div className={`${active === "I" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group I</p>
+              <div className="flex flex-col items-start gap-2 m-4">
+                <p><span className="fi fi-fr"></span> France</p>
+                <p><span className="fi fi-sn"></span> Senegal</p>
+                <p><span className="fi fi-xx"></span> FIFA Play-Off Tournament 2</p>
+                <p><span className="fi fi-no"></span> Norway</p>
+              </div>
+            </div>
+            {/* Group J */}
+            <div className={`${active === "J" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group J</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-ar"></span> Argentina</p>
+                <p><span className="fi fi-dz"></span> Algeria</p>
+                <p><span className="fi fi-at"></span> Austria</p>
+                <p><span className="fi fi-jo"></span> Jordan</p>
+              </div>
+            </div>
+            {/* Group K */}
+            <div className={`${active === "K" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group K</p>
+              <div className="flex flex-col items-start gap-2 m-4">
+                <p><span className="fi fi-pt"></span> Portugal</p>
+                <p><span className="fi fi-xx"></span> FIFA Play-Off Tournament 1</p>
+                <p><span className="fi fi-uz"></span> Uzbekistan</p>
+                <p><span className="fi fi-co"></span> Colombia</p>
+              </div>
+            </div>
+            {/* Group L */}
+            <div className={`${active === "L" || active === "All" ? "block" : "hidden"} w-64 text-center p-4 h-60 flex flex-col  border-2 border-gold rounded-xl shadow-md bg-cyanDark/30`}>
+              <p className="text-2xl font-bold">Group L</p>
+              <div className="flex flex-col items-start gap-2 m-6">
+                <p><span className="fi fi-gb-eng"></span> England</p>
+                <p><span className="fi fi-hr"></span> Croatia</p>
+                <p><span className="fi fi-gh"></span> Ghana</p>
+                <p><span className="fi fi-pa"></span> Panama</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+
+<div id="section2" className="relative py-10 font-outfit" // relative, bg-darkgreen/70, font-semibold, text-center
+        style={{
+          backgroundImage: 'url("src/assets/img8.webp")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundBlendMode: 'overlay',
+          backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        }}>
+h2 className="text-4xl font-bold pt-4">Format</h2>
+        <h3 className="text-3xl font-bold pt-12">Old Format</h3>
+        <div id="container" className="flex justify-center gap-16 items-center pt-6">
+          <div id="card1" className="w-60 text-center p-4 flex justify-center items-center"><p>32 Teams</p></div>
+          <div id="card2" className="w-60 text-center p-4 flex justify-center items-center"><p>8 groups of 4 teams each
+          </p></div>
+          <div id="card3" className="w-60 text-center p-4 flex justify-center items-center"><p>1 Host Country</p></div>
+          <div id="card4" className="w-60 text-center p-4 flex justify-center items-center"><p>64 Matches</p>
+        </div>
+<h3 className="text-3xl font-bold pt-20 h-28">New Format</h3>
+        <div id="container" className="flex justify-center gap-16 items-center h-[130px]">
+          <div id="card1" className="w-60 text-center p-4 flex justify-center items-center"><p>48 Teams (First Time in History)</p></div>
+          <div id="card2" className="w-60 text-center p-4 flex justify-center items-center"><p>12 groups of 4 teams each</p></div>
+          <div id="card3" className="w-60 text-center p-4 flex justify-center items-center"><p>3 Host Countries</p></div>
+          <div id="card4" className="w-60 text-center p-4 flex justify-center items-center"><p>104 Matches</p></div>
+<h3 className="text-3xl font-bold pt-8 h-8">Group Stage</h3>
+        <div id="container" className="flex justify-center gap-40 items-center h-[220px] pt-8">
+          <div className="flex flex-col items-start gap-2 justify-center">
+            <h3 className="text-2xl font-bold">Old Format</h3>
+            <br />
+            <p>32 teams</p>
+            <p>8 groups of 4 teams each</p>
+          </div>
+          <div className="flex flex-col items-start gap-2 justify-center">
+            <h3 className="text-2xl font-bold">New Format</h3>
+            <br />
+            <p>48 teams</p>
+            <p>12 groups of 4 teams each</p>
+          </div>
+        </div>
+        <h3 className="text-3xl font-bold pt-8 h-8">Knockout Stages</h3>
+        <div id="container" className="flex justify-center gap-40 items-center h-[220px] pt-8">
+          <div className="flex flex-col items-start gap-2 justify-center">
+            <h3 className="text-2xl font-bold">Old Format</h3>
+            <br />
+            <p>64 matches</p>
+            <p>Round of 16</p>
+            <p>Quarter-finals</p>
+            <p>Semi-finals</p>
+            <p>Final</p>
+          </div>
+          <div className="flex flex-col items-start gap-2 justify-center">
+            <h3 className="text-2xl font-bold">New Format</h3>
+            <br />
+            <p>104 matches</p>
+            <p>Round of 32 (New)</p>
+            <p>Round of 16</p>
+            <p>Quarter-finals</p>
+            <p>Semi-finals</p>
+            <p>Final</p>
+          </div>
+        </div>
+
+
+{/* 
+    Expose React dev server to your local network
+
+    ipconfig
+
+  npm run dev -- -- host
+  or
+  npm run dev -- -- 192.168.1.50
+
+  set HOST=192.168.1.50 && npm start
+
+  on browser
+  https://192.168.1.50:5173
+*/}

@@ -1,0 +1,582 @@
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { useState } from "react";
+import northAmerica from "./northAmerica.json";
+import statesUS from "./statesUS.json";
+import mexico from "./mexico.json";
+import canada from "./canada.json";
+
+const markers = [
+    {
+        name: "Los Angeles",
+        stadium: "Sofi Stadium",
+        coordinates: [-118.25, 34.05],
+        dx: -25,
+        dy: -15,
+        cityX: 25,
+        cityY: -15,
+        stadiumX: 25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "red",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Miami",
+        stadium: "Hard Rock Stadium",
+        coordinates: [-80.708615, 25.775163],
+        dx: 32,
+        dy: -10,
+        cityX: 85,
+        cityY: -30,
+        stadiumX: 125,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "blue",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "New York",
+        stadium: "MetLife Stadium",
+        coordinates: [-74.006, 40.7128],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "green",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Atlanta",
+        stadium: "Mercedes-Benz Stadium",
+        coordinates: [-84.3877, 33.749],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "purple",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Dallas",
+        stadium: "AT&T Stadium",
+        coordinates: [-96.8024, 32.7767],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "orange",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Boston",
+        stadium: "Gillette Stadium",
+        coordinates: [-71.0589, 42.3601],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "red",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Houston",
+        stadium: "NRG Stadium",
+        coordinates: [-95.3698, 29.7604],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "yellow",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Kansas City",
+        stadium: "Arrowhead Stadium",
+        coordinates: [-94.5786, 39.0922],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "yellow",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Seattle",
+        stadium: "Lumen Field",
+        coordinates: [-122.3321, 47.6062],
+        dx: -55,
+        dy: -5,
+        cityX: -35,
+        cityY: 0,
+        stadiumX: -5,
+        stadiumY: 12,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "yellow",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Philadelphia",
+        stadium: "Lincoln Financial Field",
+        coordinates: [-75.1642, 39.9522],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "purple",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "SF Bay Area",
+        stadium: "Levi's Stadium",
+        coordinates: [-122.4194, 37.7749],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "yellow",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "New Jersey",
+        stadium: "MetLife Stadium",
+        coordinates: [-74.4281, 40.0149],
+        dx: -25,
+        dy: -15,
+        cityX: -25,
+        cityY: -15,
+        stadiumX: -25,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "maroon",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Mexico City",
+        stadium: "Estadio Azteca",
+        coordinates: [-99.0802, 19.48325],
+        dx: 70,
+        dy: 5,
+        cityX: 105,
+        cityY: -15,
+        stadiumX: 115,
+        stadiumY: 5,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "cyan",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Guadalajara",
+        stadium: "Estadio Akron",
+        coordinates: [-103.4442, 20.6663],
+        dx: -80,
+        dy: 20,
+        cityX: -15,
+        cityY: -5,
+        stadiumX: -8,
+        stadiumY: 15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "yellow",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Monterrey",
+        stadium: "Estadio BBVA",
+        coordinates: [-100.3764, 25.6861],
+        dx: -80,
+        dy: 0,
+        cityX: -20,
+        cityY: -15,
+        stadiumX: -10,
+        stadiumY: 5,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "red",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Toronto",
+        stadium: "BMO Field",
+        coordinates: [-79.3879, 43.6532],
+        dx: 25,
+        dy: -15,
+        cityX: 55,
+        cityY: -35,
+        stadiumX: 55,
+        stadiumY: -15,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "black",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+    {
+        name: "Vancouver",
+        stadium: "BC Place Stadium",
+        coordinates: [-123.05, 49.24],
+        dx: 25,
+        dy: -15,
+        cityX: 60,
+        cityY: -45,
+        stadiumX: 105,
+        stadiumY: -28,
+        textAnchor: "end",
+        alignmentBaseline: "middle",
+        connectorProps: {
+            stroke: "brown",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+        },
+        boxX: "-95",
+        boxY: "-30",
+        boxWidth: "190",
+        boxHeight: "45",
+    },
+];
+
+function FifaMap() {
+
+    const [hoverState, setHoverState] = useState(null);
+
+    return (
+        <div className="w-full flex justify-center">
+            <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{
+                    // rotate: [-30, -50, -10],
+                    scale: 350,
+                    center: [-115, 53.2], // Focus on North America
+                }}
+                width={800}
+                height={620}
+            >
+                <Geographies geography={northAmerica}>
+                    {({ geographies }) =>
+                        geographies
+                            .filter((geo) =>
+                                ["United States of America", "Canada", "Mexico"].includes(
+                                    geo.properties.name
+                                )
+                            )
+                            .map((geo) => (
+                                <>
+                                    <Geography
+                                        key={geo.rsmKey}
+                                        geography={geo}
+                                        className="fill-slate-300 hover:fill-cyan-400 transition-all outline-none"
+                                    />
+                                    <Geography
+                                        key={geo.rsmKey}
+                                        geography={geo}
+                                        fill="none"
+                                        stroke="black"
+                                        strokeWidth={0.5}
+                                    />
+                                </>
+                            ))
+                    }
+                </Geographies>
+                <Geographies geography={statesUS}>
+                    {({ geographies }) =>
+                        geographies
+                            .map((geo) => (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    fill="none"
+                                    stroke="#94a3b8"
+                                    strokeWidth={0.4}
+                                    style={{
+                                        default: { outline: "none" },
+                                        hover: { stroke: "#06b6d4", strokeWidth: 0.8 },
+                                    }}
+                                />
+                            ))
+                    }
+                </Geographies>
+                <Geographies geography={mexico}>
+                    {({ geographies }) =>
+                        geographies
+                            .filter((geo) => !geo.properties.mun_name)
+                            .map((geo) => (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    fill="none"
+                                    stroke="#94a3b8"
+                                    strokeWidth={0.4}
+                                    style={{
+                                        default: { outline: "none" },
+                                        hover: { stroke: "#06b6d4", strokeWidth: 0.8 },
+                                    }}
+                                />
+                            ))
+                    }
+                </Geographies>
+                <Geographies geography={canada}>
+                    {({ geographies }) =>
+                        geographies
+                            // .filter((geo) => !(geo.properties.NAME === "Nunavut" || geo.properties.NAME === "Northwest Territories"))
+                            .map((geo) => (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    fill="none"
+                                    stroke="#94a3b8"
+                                    strokeWidth={0.4}
+                                    style={{
+                                        default: { outline: "none" },
+                                        hover: { stroke: "#06b6d4", strokeWidth: 0.8 },
+                                    }}
+                                />
+                            ))
+                    }
+                </Geographies>
+
+                {/* {markers.map(({name, coordinates, stadium, dx, dy, cityX, cityY, stadiumX, stadiumY, textAnchor, alignmentBaseline, connectorProps}) => (
+                    <Annotation 
+                        key={name}
+                        stadium={stadium}
+                        subject={coordinates}
+                        dx={dx}
+                        dy={dy}
+                        connectorProps={connectorProps}
+                    >
+                        <text x={cityX} y={cityY} textAnchor={textAnchor} alignmentBaseline={alignmentBaseline} fill="white">
+                            {name}
+                        </text>
+                        <text x={stadiumX} y={stadiumY} textAnchor={textAnchor} alignmentBaseline={alignmentBaseline} fill="white">
+                            {stadium}
+                        </text>
+                    </Annotation>
+                ))} */}
+                {markers.map(({ name, coordinates, connectorProps, stadium, boxX, boxY, boxWidth, boxHeight }) => (
+                    <Marker
+                        key={name}
+                        coordinates={coordinates}
+                        onMouseEnter={() => setHoverState({ name, stadium })}
+                        onMouseLeave={() => setHoverState(null)}
+                    >
+                        <g
+                            fill="none"
+                            stroke={connectorProps.stroke}
+                            strokeWidth={connectorProps.strokeWidth}
+                            transform="translate(-8, -16) scale(0.7)"
+                            className="cursor-pointer"
+                        >
+                            <circle cx="12" cy="10" r={3} />
+                            <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
+                        </g>
+                        {hoverState && hoverState.name === name && (
+                            <g transform="translate(0, -45)" style={{ pointerEvents: "none" }}>
+                                <rect
+                                    x={boxX}
+                                    y={boxY}
+                                    width={boxWidth}
+                                    height={boxHeight}
+                                    rx="5"
+                                    fill="rgba(255, 255, 255, 0.95)"
+                                    stroke="#ccc"
+                                    strokeWidth="1"
+                                    style={{ zIndex: 10 }}
+                                />
+                                <text
+                                    y="-10"
+                                    textAnchor="middle"
+                                    style={{ fontFamily: "system-ui", fill: "#333", fontSize: "14px", fontWeight: "bold" }}
+                                >
+                                    City: {name}
+                                </text>
+                                <text
+                                    y="5"
+                                    textAnchor="middle"
+                                    style={{ fontFamily: "system-ui", fill: "#555", fontSize: "12px" }}
+                                >
+                                    Stadium: {stadium}
+                                </text>
+                            </g>
+                        )}
+                    </Marker>
+                ))}
+                {/* <Annotation 
+                    subject={markers[0].coordinates}
+                    dx={markers[0].dx}
+                    dy={markers[0].dy}
+                    connectorProps={{
+                        stroke: markers[0].connectorProps.stroke,
+                        strokeWidth: markers[0].connectorProps.strokeWidth,
+                        strokeLinecap: markers[0].connectorProps.strokeLinecap,
+                    }}
+                >
+                    <text x="-6" y="-2" textAnchor="end" alignmentBaseline="middle" fill="white">
+                        {"Los Angeles"}
+                    </text>
+                </Annotation>
+                <Annotation 
+                    subject={markers[1].coordinates}
+                    dx={markers[1].dx}
+                    dy={markers[1].dy}
+                    connectorProps={{
+                        stroke: markers[1].connectorProps.stroke,
+                        strokeWidth: markers[1].connectorProps.strokeWidth,
+                        strokeLinecap: markers[1].connectorProps.strokeLinecap,
+                    }}
+                >
+                    <text x="10" y="-2" textAnchor="start" alignmentBaseline="middle" fill="white">
+                        {"Florida"}
+                    </text>
+                </Annotation> */}
+            </ComposableMap>
+        </div >
+    );
+}
+
+export default FifaMap;
