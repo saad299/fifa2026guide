@@ -24,7 +24,7 @@ const HeaderFooter = () => {
             <div id="header" className="bg-darkgreen sticky top-0 z-10 w-full">
                 <div id="nav" className="flex justify-between items-center px-4 sm:px-6 md:px-10 lg:px-16 sm:h-20 md:h-24 md:pt-6 pt-2 pb-2">
                     <div id="logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-24 lg:h-28 bg-black flex justify-center items-center cursor-pointer rounded-xl shrink-0 md:pt-4 md:mt-6">
-                        <img src={wc26Logo} alt="WC26_Logo" className="h-12 sm:h-16 md:h-24 md:pb-4" />
+                        <img src={wc26Logo} alt="WC26_Logo" width="70" height="70" className="h-12 sm:h-16 md:h-24 md:pb-4" />
                     </div>
 
                     <div id="menu" className="hidden lg:flex justify-center items-center gap-10 xl:gap-12 md:pb-4">

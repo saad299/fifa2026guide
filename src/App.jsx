@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import HeaderFooter from "./Components/HeaderFooter";
-import Home from "./Components/Home";
-import FanGuide from "./Components/FanGuide";
+const Home = lazy(() => import("./Components/Home"));
+const FanGuide = lazy(() => import("./Components/FanGuide"));
 
 const router = createBrowserRouter([
   {
@@ -10,11 +11,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: (
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            <Home />
+          </Suspense>
+        ),
       },
       {
         path: "fan-guide",
-        element: <FanGuide />,
+        element: (
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            <FanGuide />
+          </Suspense>
+        ),
       },
     ],
   },

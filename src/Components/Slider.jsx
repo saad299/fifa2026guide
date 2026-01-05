@@ -82,6 +82,10 @@ function Slider({ sliderDuration = 6000, }) {
                                 <motion.img
                                     src={slide.src}
                                     alt={slide.alt}
+                                    width="1920"
+                                    height="1080"
+                                    fetchPriority={i === 0 ? "high" : "auto"}
+                                    loading={i === 0 ? "eager" : "lazy"}
                                     className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[770px] object-cover"
                                     initial="enter"
                                     animate="center"

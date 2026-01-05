@@ -1,5 +1,6 @@
 import Slider from "./Slider";
-import FifaMap from "./FifaMap";
+import { lazy, Suspense } from "react";
+const FifaMap = lazy(() => import("./FifaMap"));
 import FAQs from "./FAQs";
 import Groups from "./Groups";
 import img8 from "../assets/trophy_and_ball.webp";
@@ -118,7 +119,9 @@ const Home = () => {
                 <div className="pt-4 sm:pt-6">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Stadium and Host Cities</h2>
                     <div className="w-full flex justify-center items-center">
-                        <FifaMap />
+                        <Suspense fallback={<div className="h-[500px] w-full flex items-center justify-center">Loading Map...</div>}>
+                            <FifaMap />
+                        </Suspense>
                     </div>
                 </div>
             </div>
