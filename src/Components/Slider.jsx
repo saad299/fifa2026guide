@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
-import img1 from "../assets/img1.webp";
-import img2 from "../assets/img2.jpg";
-import img3 from "../assets/img3.jpg";
-import img4 from "../assets/img4.jpg";
-import img5 from "../assets/img5.jpg";
+import img1 from "../assets/slider_image_1.webp";
+import img2 from "../assets/slider_image_2.jpg";
+import img3 from "../assets/slider_image_3.jpg";
+import img4 from "../assets/slider_image_4.jpg";
+import img5 from "../assets/slider_image_5.jpg";
 
 const slides = [
     { id: 1, src: img1, alt: "Slide 1" },

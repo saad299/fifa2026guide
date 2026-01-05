@@ -2,9 +2,9 @@ import Slider from "./Slider";
 import FifaMap from "./FifaMap";
 import FAQs from "./FAQs";
 import Groups from "./Groups";
-import img8 from "../assets/img8.webp";
-import img12 from "../assets/img12.jpg";
-import img7 from "../assets/img7.jpg";
+import img8 from "../assets/trophy_and_ball.webp";
+import img12 from "../assets/stadium_banner.jpg";
+import img7 from "../assets/football_field.jpg";
 
 const Home = () => {
     return (

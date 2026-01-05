@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import img13 from "../assets/img13.webp";
+import img13 from "../assets/football_fan.webp";
 
 const FanGuide = () => {
   return (
